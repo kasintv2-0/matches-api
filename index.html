@@ -4,41 +4,93 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Match Manager</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Match Manager</h1>
+  <div class="container">
+    <header>
+      <h1>🏏 Match Manager</h1>
+    </header>
 
-  <!-- Match Preview Section -->
-  <h2>Matches</h2>
-  <pre id="matches-preview">Loading matches...</pre>
+    <!-- Match Preview Section -->
+    <section id="matches-section">
+      <h2>Upcoming Matches</h2>
+      <pre id="matches-preview">Loading matches...</pre>
+    </section>
 
-  <!-- Add Match Form -->
-  <h2>Add Match</h2>
-  <form id="add-match-form">
-    <input type="text" id="match-id" placeholder="Match ID" required><br>
-    <input type="text" id="home-team" placeholder="Home Team Name" required><br>
-    <input type="text" id="home-logo" placeholder="Home Team Logo URL" required><br>
-    <input type="text" id="away-team" placeholder="Away Team Name" required><br>
-    <input type="text" id="away-logo" placeholder="Away Team Logo URL" required><br>
-    <input type="text" id="league" placeholder="League Name" required><br>
-    <input type="text" id="sport" placeholder="Sport" required><br>
-    <input type="date" id="date" required><br>
-    <input type="time" id="time" required><br>
-    <input type="text" id="venue" placeholder="Venue" required><br>
-    <input type="datetime-local" id="start-time" required><br>
-    <input type="datetime-local" id="end-time" required><br>
-    <textarea id="streams" placeholder='Streams (JSON format)' required></textarea><br>
-    <button type="submit">Add Match</button>
-  </form>
+    <!-- Add Match Form -->
+    <section id="add-match-section">
+      <h2>Add Match</h2>
+      <form id="add-match-form">
+        <div class="form-group">
+          <label for="match-id">Match ID</label>
+          <input type="text" id="match-id" placeholder="e.g., 101" required>
+        </div>
+        <div class="form-group">
+          <label for="home-team">Home Team Name</label>
+          <input type="text" id="home-team" placeholder="e.g., India" required>
+        </div>
+        <div class="form-group">
+          <label for="home-logo">Home Team Logo URL</label>
+          <input type="text" id="home-logo" placeholder="e.g., URL" required>
+        </div>
+        <div class="form-group">
+          <label for="away-team">Away Team Name</label>
+          <input type="text" id="away-team" placeholder="e.g., Australia" required>
+        </div>
+        <div class="form-group">
+          <label for="away-logo">Away Team Logo URL</label>
+          <input type="text" id="away-logo" placeholder="e.g., URL" required>
+        </div>
+        <div class="form-group">
+          <label for="league">League Name</label>
+          <input type="text" id="league" placeholder="e.g., ICC World Cup" required>
+        </div>
+        <div class="form-group">
+          <label for="sport">Sport</label>
+          <input type="text" id="sport" placeholder="e.g., Cricket" required>
+        </div>
+        <div class="form-group">
+          <label for="date">Date</label>
+          <input type="date" id="date" required>
+        </div>
+        <div class="form-group">
+          <label for="time">Time</label>
+          <input type="time" id="time" required>
+        </div>
+        <div class="form-group">
+          <label for="venue">Venue</label>
+          <input type="text" id="venue" placeholder="e.g., Adelaide Oval" required>
+        </div>
+        <div class="form-group">
+          <label for="start-time">Start Time</label>
+          <input type="datetime-local" id="start-time" required>
+        </div>
+        <div class="form-group">
+          <label for="end-time">End Time</label>
+          <input type="datetime-local" id="end-time" required>
+        </div>
+        <div class="form-group">
+          <label for="streams">Streams (JSON)</label>
+          <textarea id="streams" placeholder='[{"title": "Stream Title", "url": "URL"}]' required></textarea>
+        </div>
+        <button type="submit" class="btn">Add Match</button>
+      </form>
+    </section>
 
-  <!-- Remove Match Form -->
-  <h2>Remove Match</h2>
-  <form id="remove-match-form">
-    <input type="text" id="remove-id" placeholder="Match ID to Remove" required><br>
-    <button type="submit">Remove Match</button>
-  </form>
+    <!-- Remove Match Form -->
+    <section id="remove-match-section">
+      <h2>Remove Match</h2>
+      <form id="remove-match-form">
+        <div class="form-group">
+          <label for="remove-id">Match ID to Remove</label>
+          <input type="text" id="remove-id" placeholder="e.g., 101" required>
+        </div>
+        <button type="submit" class="btn btn-danger">Remove Match</button>
+      </form>
+    </section>
+  </div>
 
-  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
