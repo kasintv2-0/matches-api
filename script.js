@@ -12,7 +12,7 @@ async function saveMatchesToServer(updatedData) {
 
     if (response.ok) {
       alert("Match saved successfully.");
-      loadMatches(); // Reload the matches preview after saving
+      loadMatches(); // Optionally reload the matches preview
     } else {
       alert("Failed to save match.");
       console.error("Error response from server:", result);
@@ -47,5 +47,6 @@ document.getElementById("add-match-form").addEventListener("submit", async (e) =
     streams: JSON.parse(document.getElementById("streams").value),
   };
 
+  // Send the match data to the server
   saveMatchesToServer({ matches: [match] });
 });

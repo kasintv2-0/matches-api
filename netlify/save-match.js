@@ -1,23 +1,23 @@
 const fs = require("fs");
 const path = require("path");
 
-// Path to `matches.json`
+// Path to the matches.json file
 const filePath = path.join(__dirname, "../matches.json");
 
 module.exports.handler = async (event) => {
   try {
-    // Parse the body data sent via POST request
+    // Parse the body data from the POST request
     const body = JSON.parse(event.body);
 
-    // Ensure data has the expected structure
-    if (!body.matches) {
+    // Validate if `matches` exist
+    if (!body.matches || !Array.isArray(body.matches)) {
       return {
         statusCode: 400,
         body: JSON.stringify({ message: "Invalid payload" }),
       };
     }
 
-    // Save data into JSON
+    // Save the matches into the JSON file
     fs.writeFileSync(filePath, JSON.stringify(body.matches, null, 2));
 
     return {
@@ -26,6 +26,7 @@ module.exports.handler = async (event) => {
     };
   } catch (error) {
     console.error("Error saving match:", error);
+
     return {
       statusCode: 500,
       body: JSON.stringify({ message: "Error saving match" }),
