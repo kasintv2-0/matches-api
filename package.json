@@ -1,0 +1,22 @@
+{
+    "name": "match-api",
+    "version": "1.0.0",
+    "description": "Match saving system with Netlify serverless functions",
+    "main": "index.js",
+    "scripts": {
+      "dev": "netlify dev",
+      "build": "netlify build",
+      "deploy": "netlify deploy",
+      "start": "netlify dev"
+    },
+    "dependencies": {},
+    "devDependencies": {
+      "netlify-cli": "^12.0.0"
+    },
+    "engines": {
+      "node": ">=14.0.0"
+    },
+    "author": "kasintv",
+    "license": "MIT"
+  }
+  
