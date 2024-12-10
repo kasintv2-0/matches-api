@@ -1,30 +1,27 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
+
+const matchesFilePath = path.join(__dirname, "../../matches.json");
 
 exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
-    const matchesFilePath = path.join(__dirname, '../../matches.json');
 
-    // Load the current matches
-    let matches = [];
-    if (fs.existsSync(matchesFilePath)) {
-      const data = fs.readFileSync(matchesFilePath);
-      matches = JSON.parse(data);
-    }
+    // Read the existing JSON file
+    const jsonData = JSON.parse(fs.readFileSync(matchesFilePath, "utf8"));
 
-    // Append the new match data
-    matches.push(body);
+    // Push the new match data
+    jsonData.matches.push(body);
 
-    // Save data back to the file
-    fs.writeFileSync(matchesFilePath, JSON.stringify({ matches }, null, 2));
+    // Save back the data to the file
+    fs.writeFileSync(matchesFilePath, JSON.stringify(jsonData, null, 2));
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Match saved successfully!" }),
+      body: JSON.stringify({ message: "Match successfully saved!" }),
     };
   } catch (error) {
-    console.error("Error saving match:", error);
+    console.error("Error saving match data:", error);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: "Failed to save match." }),

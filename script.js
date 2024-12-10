@@ -11,8 +11,30 @@ async function loadMatches() {
   }
 }
 
-// Save Matches
-async function saveMatch(match) {
+// Handle Submit - Add Match
+document.getElementById("add-match-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const match = {
+    id: document.getElementById("match-id").value,
+    homeTeam: {
+      name: document.getElementById("home-team").value,
+      logo: document.getElementById("home-logo").value,
+    },
+    awayTeam: {
+      name: document.getElementById("away-team").value,
+      logo: document.getElementById("away-logo").value,
+    },
+    league: document.getElementById("league").value,
+    sport: document.getElementById("sport").value,
+    date: document.getElementById("date").value,
+    time: document.getElementById("time").value,
+    venue: document.getElementById("venue").value,
+    startTime: document.getElementById("start-time").value,
+    endTime: document.getElementById("end-time").value,
+    streams: JSON.parse(document.getElementById("streams").value),
+  };
+
   try {
     const response = await fetch(`${baseURL}/save-match`, {
       method: "POST",
@@ -28,27 +50,9 @@ async function saveMatch(match) {
       alert("Failed to save match.");
     }
   } catch (error) {
-    console.error("Error calling save-match endpoint:", error);
+    console.error("Error saving match:", error);
   }
-}
+});
 
-// Remove Match
-async function removeMatch(id) {
-  try {
-    const response = await fetch(`${baseURL}/remove-match`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-
-    const result = await response.json();
-    if (response.ok) {
-      alert(result.message);
-      loadMatches();
-    } else {
-      alert("Failed to remove match.");
-    }
-  } catch (error) {
-    console.error("Error calling remove-match endpoint:", error);
-  }
-}
+// Load matches when the page loads
+loadMatches();
