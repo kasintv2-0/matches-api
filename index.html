@@ -9,60 +9,64 @@
 </head>
 
 <body>
-  <h1>Match Manager</h1>
+  <header>
+    <h1>Match Manager</h1>
+  </header>
 
-  <!-- Add Match Form -->
-  <form id="add-match-form">
-    <h3>Add Match</h3>
-    <label for="match-id">Match ID:</label>
-    <input type="text" id="match-id" required><br>
+  <!-- Add Match Section -->
+  <section>
+    <form id="add-match-form">
+      <h3>Add a New Match</h3>
+      <label for="match-id">Match ID:</label>
+      <input type="text" id="match-id" required><br>
 
-    <label for="home-team">Home Team Name:</label>
-    <input type="text" id="home-team" required><br>
+      <label for="home-team">Home Team Name:</label>
+      <input type="text" id="home-team" required><br>
 
-    <label for="home-logo">Home Team Logo URL:</label>
-    <input type="url" id="home-logo" required><br>
+      <label for="home-logo">Home Team Logo URL:</label>
+      <input type="url" id="home-logo" required><br>
 
-    <label for="away-team">Away Team Name:</label>
-    <input type="text" id="away-team" required><br>
+      <label for="away-team">Away Team Name:</label>
+      <input type="text" id="away-team" required><br>
 
-    <label for="away-logo">Away Team Logo URL:</label>
-    <input type="url" id="away-logo" required><br>
+      <label for="away-logo">Away Team Logo URL:</label>
+      <input type="url" id="away-logo" required><br>
 
-    <label for="league">League:</label>
-    <input type="text" id="league" required><br>
+      <label for="league">League:</label>
+      <input type="text" id="league" required><br>
 
-    <label for="sport">Sport:</label>
-    <input type="text" id="sport" required><br>
+      <label for="sport">Sport:</label>
+      <input type="text" id="sport" required><br>
 
-    <label for="date">Date:</label>
-    <input type="date" id="date" required><br>
+      <label for="date">Match Date:</label>
+      <input type="date" id="date" required><br>
 
-    <label for="time">Time:</label>
-    <input type="time" id="time" required><br>
+      <label for="time">Match Time:</label>
+      <input type="time" id="time" required><br>
 
-    <label for="venue">Venue:</label>
-    <input type="text" id="venue" required><br>
+      <label for="venue">Venue:</label>
+      <input type="text" id="venue" required><br>
 
-    <label for="start-time">Start Time:</label>
-    <input type="datetime-local" id="start-time" required><br>
+      <label for="start-time">Start Time:</label>
+      <input type="datetime-local" id="start-time" required><br>
 
-    <label for="end-time">End Time:</label>
-    <input type="datetime-local" id="end-time" required><br>
+      <label for="end-time">End Time:</label>
+      <input type="datetime-local" id="end-time" required><br>
 
-    <label for="streams">Stream Links (JSON format):</label>
-    <textarea id="streams" required>["https://www.youtube.com/embed/dQw4w9WgXcQ"]</textarea><br>
+      <label for="streams">Stream Links (Comma Separated):</label>
+      <textarea id="streams" required>["https://www.youtube.com/watch?v=dQw4w9WgXcQ"]</textarea><br>
 
-    <button type="submit">Add Match</button>
-  </form>
+      <button type="submit">Add Match</button>
+    </form>
+  </section>
 
-  <hr>
+  <hr />
 
-  <!-- Display Matches -->
-  <div>
-    <h3>Match List</h3>
+  <!-- Match List Section -->
+  <section>
+    <h3>All Matches</h3>
     <div id="matches-preview" style="white-space: pre-wrap;"></div>
-  </div>
+  </section>
 
   <script src="script.js"></script>
 </body>

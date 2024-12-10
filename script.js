@@ -7,11 +7,11 @@ async function loadMatches() {
     const data = await response.json();
     document.getElementById("matches-preview").textContent = JSON.stringify(data.matches, null, 2);
   } catch (error) {
-    console.error("Failed to load matches:", error);
+    console.error("Failed to load matches", error);
   }
 }
 
-// Handle Submit - Add Match
+// Handle Form Submission
 document.getElementById("add-match-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -35,24 +35,22 @@ document.getElementById("add-match-form").addEventListener("submit", async (e) =
     streams: JSON.parse(document.getElementById("streams").value),
   };
 
-  try {
-    const response = await fetch(`${baseURL}/save-match`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(match),
-    });
+  const response = await fetch(`${baseURL}/save-match`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(match),
+  });
 
-    const result = await response.json();
-    if (response.ok) {
-      alert(result.message);
-      loadMatches();
-    } else {
-      alert("Failed to save match.");
-    }
-  } catch (error) {
-    console.error("Error saving match:", error);
+  const result = await response.json();
+  if (response.ok) {
+    alert(result.message);
+    loadMatches();
+  } else {
+    alert("Failed to save match.");
   }
 });
 
-// Load matches when the page loads
+// Load all matches on page load
 loadMatches();
