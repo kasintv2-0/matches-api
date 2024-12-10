@@ -1,13 +1,38 @@
-const matchesFile = "matches.json";
+const matchesFile = "matches.json"; // Path to the JSON file
 
-// Load existing matches and display them
+// Load Matches
 async function loadMatches() {
-  const response = await fetch(matchesFile);
-  const matches = await response.json();
-  document.getElementById("matches-preview").textContent = JSON.stringify(matches, null, 2);
+  try {
+    const response = await fetch(matchesFile);
+    const data = await response.json();
+    document.getElementById("matches-preview").textContent = JSON.stringify(data.matches, null, 2);
+  } catch (error) {
+    console.error("Failed to load matches:", error);
+    document.getElementById("matches-preview").textContent = "Error loading matches.";
+  }
 }
 
-// Add a new match
+// Save Matches
+async function saveMatches(updatedData) {
+  try {
+    const response = await fetch(matchesFile, {
+      method: "PUT", // Ensure GitHub Pages doesn't block this operation
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    });
+    if (response.ok) {
+      loadMatches();
+    } else {
+      alert("Failed to save matches!");
+    }
+  } catch (error) {
+    console.error("Error saving matches:", error);
+  }
+}
+
+// Add Match
 document.getElementById("add-match-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const match = {
@@ -31,37 +56,23 @@ document.getElementById("add-match-form").addEventListener("submit", async (e) =
   };
 
   const response = await fetch(matchesFile);
-  const matches = await response.json();
+  const data = await response.json();
+  const matches = data.matches;
   matches.push(match);
-  saveMatches(matches);
+  saveMatches({ matches });
 });
 
-// Remove a match
+// Remove Match
 document.getElementById("remove-match-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const removeId = document.getElementById("remove-id").value;
 
   const response = await fetch(matchesFile);
-  let matches = await response.json();
+  const data = await response.json();
+  let matches = data.matches;
   matches = matches.filter((match) => match.id !== removeId);
-  saveMatches(matches);
+  saveMatches({ matches });
 });
 
-// Save updated matches to the JSON file
-async function saveMatches(updatedMatches) {
-  const response = await fetch(matchesFile, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updatedMatches),
-  });
-  if (response.ok) {
-    loadMatches();
-  } else {
-    alert("Failed to save matches!");
-  }
-}
-
-// Initial load
+// Initialize
 loadMatches();
