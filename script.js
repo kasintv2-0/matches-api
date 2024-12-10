@@ -1,39 +1,34 @@
-const matchesFile = "matches.json"; // Path to the JSON file
+let matches = JSON.parse(localStorage.getItem('matches')) || { matches: [] };
 
 // Load Matches
-async function loadMatches() {
+function loadMatches() {
   try {
-    const response = await fetch(matchesFile);
-    const data = await response.json();
-    document.getElementById("matches-preview").textContent = JSON.stringify(data.matches, null, 2);
+    const previewElement = document.getElementById("matches-preview");
+    if (matches.matches.length > 0) {
+      previewElement.textContent = JSON.stringify(matches.matches, null, 2);
+    } else {
+      previewElement.textContent = "No matches available.";
+    }
   } catch (error) {
     console.error("Failed to load matches:", error);
     document.getElementById("matches-preview").textContent = "Error loading matches.";
   }
 }
 
-// Save Matches
-async function saveMatches(updatedData) {
+// Save Matches to LocalStorage
+function saveMatches() {
   try {
-    const response = await fetch(matchesFile, {
-      method: "PUT", // Ensure GitHub Pages doesn't block this operation
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
-    });
-    if (response.ok) {
-      loadMatches();
-    } else {
-      alert("Failed to save matches!");
-    }
+    localStorage.setItem('matches', JSON.stringify(matches));
+    alert("Matches saved successfully!");
+    loadMatches();
   } catch (error) {
-    console.error("Error saving matches:", error);
+    console.error("Failed to save matches:", error);
+    alert("Failed to save matches!");
   }
 }
 
 // Add Match
-document.getElementById("add-match-form").addEventListener("submit", async (e) => {
+document.getElementById("add-match-form").addEventListener("submit", (e) => {
   e.preventDefault();
   const match = {
     id: document.getElementById("match-id").value,
@@ -52,26 +47,19 @@ document.getElementById("add-match-form").addEventListener("submit", async (e) =
     venue: document.getElementById("venue").value,
     startTime: document.getElementById("start-time").value,
     endTime: document.getElementById("end-time").value,
-    streams: JSON.parse(document.getElementById("streams").value),
+    streams: JSON.parse(document.getElementById("streams").value) || [],
   };
 
-  const response = await fetch(matchesFile);
-  const data = await response.json();
-  const matches = data.matches;
-  matches.push(match);
-  saveMatches({ matches });
+  matches.matches.push(match);
+  saveMatches();
 });
 
 // Remove Match
-document.getElementById("remove-match-form").addEventListener("submit", async (e) => {
+document.getElementById("remove-match-form").addEventListener("submit", (e) => {
   e.preventDefault();
   const removeId = document.getElementById("remove-id").value;
-
-  const response = await fetch(matchesFile);
-  const data = await response.json();
-  let matches = data.matches;
-  matches = matches.filter((match) => match.id !== removeId);
-  saveMatches({ matches });
+  matches.matches = matches.matches.filter((match) => match.id !== removeId);
+  saveMatches();
 });
 
 // Initialize
