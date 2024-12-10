@@ -1,68 +1,25 @@
 body {
   font-family: Arial, sans-serif;
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
 }
 
 header {
-  background-color: #333;
-  color: #fff;
-  padding: 1rem 0;
+  background: #333;
+  color: white;
+  padding: 10px 0;
   text-align: center;
 }
 
 form {
-  background-color: #fff;
-  padding: 20px;
-  margin: 20px auto;
-  border-radius: 8px;
   max-width: 600px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-form label {
+form label,
+form input {
   display: block;
   margin: 5px 0;
-}
-
-form input,
-form textarea,
-form button {
-  width: 100%;
-  padding: 8px;
-  margin: 5px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-form button {
-  cursor: pointer;
-  background-color: #333;
-  color: white;
-  border: none;
-  padding: 10px;
-  text-transform: uppercase;
-}
-
-form button:hover {
-  background-color: #555;
-}
-
-hr {
-  margin: 20px auto;
-  border: 0;
-  height: 1px;
-  background: #333;
-}
-
-#matches-preview {
-  background: #fff;
-  padding: 15px;
-  border-radius: 5px;
-  max-width: 800px;
-  margin: 10px auto;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  color: #333;
 }

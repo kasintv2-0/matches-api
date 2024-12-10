@@ -1,17 +1,3 @@
-const baseURL = "/.netlify/functions";
-
-// Load Matches
-async function loadMatches() {
-  try {
-    const response = await fetch("/matches.json");
-    const data = await response.json();
-    document.getElementById("matches-preview").textContent = JSON.stringify(data.matches, null, 2);
-  } catch (error) {
-    console.error("Failed to load matches", error);
-  }
-}
-
-// Handle Form Submission
 document.getElementById("add-match-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -35,22 +21,22 @@ document.getElementById("add-match-form").addEventListener("submit", async (e) =
     streams: JSON.parse(document.getElementById("streams").value),
   };
 
-  const response = await fetch(`${baseURL}/save-match`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(match),
-  });
+  try {
+    const response = await fetch("/.netlify/functions/save-match", {
+      method: "POST",
+      body: JSON.stringify(match),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-  const result = await response.json();
-  if (response.ok) {
-    alert(result.message);
-    loadMatches();
-  } else {
-    alert("Failed to save match.");
+    const result = await response.json();
+    if (response.ok) {
+      alert(result.message);
+    } else {
+      alert("Something went wrong.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
   }
 });
-
-// Load all matches on page load
-loadMatches();

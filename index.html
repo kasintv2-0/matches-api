@@ -53,19 +53,11 @@
       <label for="end-time">End Time:</label>
       <input type="datetime-local" id="end-time" required><br>
 
-      <label for="streams">Stream Links (Comma Separated):</label>
-      <textarea id="streams" required>["https://www.youtube.com/watch?v=dQw4w9WgXcQ"]</textarea><br>
+      <label for="streams">Stream Links (JSON Array Example):</label>
+      <textarea id="streams">["https://www.youtube.com/watch?v=dQw4w9WgXcQ"]</textarea><br>
 
       <button type="submit">Add Match</button>
     </form>
-  </section>
-
-  <hr />
-
-  <!-- Match List Section -->
-  <section>
-    <h3>All Matches</h3>
-    <div id="matches-preview" style="white-space: pre-wrap;"></div>
   </section>
 
   <script src="script.js"></script>
