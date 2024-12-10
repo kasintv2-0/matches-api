@@ -22,21 +22,25 @@ document.getElementById("add-match-form").addEventListener("submit", async (e) =
   };
 
   try {
-    const response = await fetch("/.netlify/functions/save-match", {
-      method: "POST",
-      body: JSON.stringify(match),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      "/.netlify/functions/save-match",
+      {
+        method: "POST",
+        body: JSON.stringify(match),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const result = await response.json();
     if (response.ok) {
       alert(result.message);
     } else {
-      alert("Something went wrong.");
+      alert("Failed to save match.");
     }
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error submitting form:", error);
+    alert("Error saving match.");
   }
 });

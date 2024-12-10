@@ -1,25 +1,33 @@
 const fs = require("fs");
 const path = require("path");
 
-const matchesFilePath = path.join(__dirname, "../matches.json");
+// Path to the matches.json file
+const matchesFilePath = path.join(__dirname, "../../matches.json");
 
-exports.handler = async (event) => {
+exports.handler = async (event, context) => {
   try {
-    const body = JSON.parse(event.body);
-
-    // Check if file exists
-    if (!fs.existsSync(matchesFilePath)) {
-      fs.writeFileSync(matchesFilePath, JSON.stringify({ matches: [] }, null, 2));
+    if (event.httpMethod !== "POST") {
+      return {
+        statusCode: 405,
+        body: JSON.stringify({ message: "Method not allowed" }),
+      };
     }
 
-    // Read the current matches
-    const jsonData = JSON.parse(fs.readFileSync(matchesFilePath, "utf8"));
+    // Parse incoming JSON
+    const matchData = JSON.parse(event.body);
 
-    // Add new match to matches array
-    jsonData.matches.push(body);
+    // Load the current data from the JSON file
+    let currentData = { matches: [] };
+    if (fs.existsSync(matchesFilePath)) {
+      const jsonData = fs.readFileSync(matchesFilePath);
+      currentData = JSON.parse(jsonData);
+    }
 
-    // Write data back to JSON
-    fs.writeFileSync(matchesFilePath, JSON.stringify(jsonData, null, 2));
+    // Add the new match to the data
+    currentData.matches.push(matchData);
+
+    // Write updated data back to the file
+    fs.writeFileSync(matchesFilePath, JSON.stringify(currentData, null, 2));
 
     return {
       statusCode: 200,
@@ -27,10 +35,9 @@ exports.handler = async (event) => {
     };
   } catch (error) {
     console.error("Error saving match:", error);
-
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: "Failed to save match." }),
+      body: JSON.stringify({ message: "Internal server error" }),
     };
   }
 };
