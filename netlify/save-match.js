@@ -1,19 +1,24 @@
 const fs = require("fs");
 const path = require("path");
 
-const matchesFilePath = path.join(__dirname, "../../matches.json");
+const matchesFilePath = path.join(__dirname, "../matches.json");
 
 exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
 
-    // Read current matches
+    // Check if file exists
+    if (!fs.existsSync(matchesFilePath)) {
+      fs.writeFileSync(matchesFilePath, JSON.stringify({ matches: [] }, null, 2));
+    }
+
+    // Read the current matches
     const jsonData = JSON.parse(fs.readFileSync(matchesFilePath, "utf8"));
-    
-    // Push the new match
+
+    // Add new match to matches array
     jsonData.matches.push(body);
 
-    // Save it back to the file
+    // Write data back to JSON
     fs.writeFileSync(matchesFilePath, JSON.stringify(jsonData, null, 2));
 
     return {
