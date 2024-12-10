@@ -1,43 +1,34 @@
 const fs = require("fs");
 const path = require("path");
 
-// Path to the matches.json file
-const matchesFilePath = path.join(__dirname, "../../matches.json");
+// Path to `matches.json`
+const filePath = path.join(__dirname, "../matches.json");
 
-exports.handler = async (event, context) => {
+module.exports.handler = async (event) => {
   try {
-    if (event.httpMethod !== "POST") {
+    // Parse the body data sent via POST request
+    const body = JSON.parse(event.body);
+
+    // Ensure data has the expected structure
+    if (!body.matches) {
       return {
-        statusCode: 405,
-        body: JSON.stringify({ message: "Method not allowed" }),
+        statusCode: 400,
+        body: JSON.stringify({ message: "Invalid payload" }),
       };
     }
 
-    // Parse incoming JSON
-    const matchData = JSON.parse(event.body);
-
-    // Load the current data from the JSON file
-    let currentData = { matches: [] };
-    if (fs.existsSync(matchesFilePath)) {
-      const jsonData = fs.readFileSync(matchesFilePath);
-      currentData = JSON.parse(jsonData);
-    }
-
-    // Add the new match to the data
-    currentData.matches.push(matchData);
-
-    // Write updated data back to the file
-    fs.writeFileSync(matchesFilePath, JSON.stringify(currentData, null, 2));
+    // Save data into JSON
+    fs.writeFileSync(filePath, JSON.stringify(body.matches, null, 2));
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Match saved successfully!" }),
+      body: JSON.stringify({ message: "Match saved successfully" }),
     };
   } catch (error) {
     console.error("Error saving match:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: "Internal server error" }),
+      body: JSON.stringify({ message: "Error saving match" }),
     };
   }
 };

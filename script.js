@@ -1,3 +1,29 @@
+async function saveMatchesToServer(updatedData) {
+  try {
+    const response = await fetch("/.netlify/functions/save-match", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert("Match saved successfully.");
+      loadMatches(); // Reload the matches preview after saving
+    } else {
+      alert("Failed to save match.");
+      console.error("Error response from server:", result);
+    }
+  } catch (error) {
+    console.error("Error saving match:", error);
+    alert("Error saving match.");
+  }
+}
+
+// Handle the add-match form submission
 document.getElementById("add-match-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -21,26 +47,5 @@ document.getElementById("add-match-form").addEventListener("submit", async (e) =
     streams: JSON.parse(document.getElementById("streams").value),
   };
 
-  try {
-    const response = await fetch(
-      "/.netlify/functions/save-match",
-      {
-        method: "POST",
-        body: JSON.stringify(match),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const result = await response.json();
-    if (response.ok) {
-      alert(result.message);
-    } else {
-      alert("Failed to save match.");
-    }
-  } catch (error) {
-    console.error("Error submitting form:", error);
-    alert("Error saving match.");
-  }
+  saveMatchesToServer({ matches: [match] });
 });
